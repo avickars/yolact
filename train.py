@@ -58,7 +58,7 @@ parser.add_argument('--log_folder', default='logs/',
                     help='Directory for saving logs.')
 parser.add_argument('--config', default=None,
                     help='The config object to use.')
-parser.add_argument('--save_interval', default=30, type=int,
+parser.add_argument('--save_interval', default=160, type=int,
                     help='The number of iterations between saving the model.')
 parser.add_argument('--validation_size', default=5000, type=int,
                     help='The number of images to use for validation.')
