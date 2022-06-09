@@ -141,15 +141,15 @@ coco2014_dataset = dataset_base.copy({
 coco2017_dataset = dataset_base.copy({
     'name': 'COCO 2017',
 
-    'train_info': '/home/aidan/coco/annotations/instances_train2017.json',
-# 'train_info': '/home/aidan/coco/annotations/instances_val2017.json',
+    # 'train_info': '/home/aidan/coco/annotations/instances_train2017.json',
+'train_info': '/home/aidan/coco/annotations/instances_val2017.json',
     'valid_info': '/home/aidan/coco/annotations/instances_val2017.json',
 
     # Training images and annotations
-    'train_images': '/home/aidan/coco/train2017',
+    # 'train_images': '/home/aidan/coco/train2017',
 
     # Validation images and annotations.
-# 'train_images': '/home/aidan/coco/val2017',
+'train_images': '/home/aidan/coco/val2017',
     'valid_images': '/home/aidan/coco/val2017',
 
     'label_map': COCO_LABEL_MAP
@@ -671,7 +671,7 @@ yolact_base_config = coco_base_config.copy({
 
     # Image Size
     # 'max_size': 550,
-    'max_size': 1100,
+    'max_size': 800,
     
     # Training params
     'lr_steps': (280000, 600000, 700000, 750000),

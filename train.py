@@ -277,10 +277,7 @@ def train():
                 continue
 
             for datum in data_loader:
-                print(len(datum))
-                print((datum[0][0].shape))
 
-                return
                 # Stop if we've reached an epoch if we're resuming from start_iter
                 if iteration == (epoch + 1) * epoch_size:
                     break
