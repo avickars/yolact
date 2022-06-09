@@ -251,11 +251,9 @@ def train():
 
     last_time = time.time()
 
+    cfg.max_iter = 12500
+
     epoch_size = len(dataset) // args.batch_size
-    print(len(dataset))
-    print(args.batch_size)
-    print(epoch_size)
-    print(cfg.max_iter)
     num_epochs = math.ceil(cfg.max_iter / epoch_size)
     print('***************************** Num Epochs:',num_epochs)
 
