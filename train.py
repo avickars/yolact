@@ -356,6 +356,7 @@ def train():
                     writer.add_scalar('Train/Loss_M', losses['M'], iteration)
                     writer.add_scalar('Train/Loss_S', losses['S'], iteration)
                     writer.add_scalar('Train/Loss_I', losses['I'], iteration)
+                    writer.add_scalar('Train/Loss_T', total, iteration)
                     writer.add_scalar('Parameter/Learning_Rate', cur_lr, iteration)
 
                 if args.log:
