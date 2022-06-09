@@ -872,6 +872,7 @@ def evaluate(net:Yolact, dataset, train_mode=False):
     net.detect.use_cross_class_nms = args.cross_class_nms
     cfg.mask_proto_debug = args.mask_proto_debug
 
+
     # TODO Currently we do not support Fast Mask Re-scroing in evalimage, evalimages, and evalvideo
     if args.image is not None:
         if ':' in args.image:
@@ -1101,6 +1102,7 @@ if __name__ == '__main__':
 
         if args.cuda:
             net = net.cuda()
+
 
         evaluate(net, dataset)
 
