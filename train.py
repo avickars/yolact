@@ -251,7 +251,7 @@ def train():
 
     last_time = time.time()
 
-    cfg.max_iter = 12500
+    cfg.max_iter = 37500
 
     epoch_size = len(dataset) // args.batch_size
     num_epochs = math.ceil(cfg.max_iter / epoch_size)
