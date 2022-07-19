@@ -8,14 +8,14 @@ from math import sqrt
 from typing import List
 from collections import defaultdict
 
-from data.config import cfg, mask_type
-from layers import Detect
-from layers.interpolate import InterpolateModule
+from config import cfg, mask_type
+from detection import Detect
+from interpolate import InterpolateModule
 from backbone import construct_backbone
 
 import torch.backends.cudnn as cudnn
-from utils import timer
-from utils.functions import MovingAverage, make_net
+import timer
+from functions import MovingAverage, make_net
 
 # This is required for Pytorch 1.0.1 on Windows to initialize Cuda on some driver versions.
 # See the bug report here: https://github.com/pytorch/pytorch/issues/17108
@@ -245,8 +245,7 @@ class PredictionModule(nn.Module):
                                     h = w
 
                                 prior_data += [x, y, w, h]
-
-                self.priors = torch.Tensor(prior_data, device=device).view(-1, 4).detach()
+                self.priors = torch.Tensor(prior_data).to(device).view(-1, 4).detach()
                 self.priors.requires_grad = False
                 self.last_img_size = (cfg._tmp_img_w, cfg._tmp_img_h)
                 self.last_conv_size = (conv_w, conv_h)
@@ -399,7 +398,6 @@ class Yolact(nn.Module):
     """
 
     def __init__(self):
-        print(cfg)
         super().__init__()
 
         self.backbone = construct_backbone(cfg.backbone)
@@ -678,51 +676,51 @@ class Yolact(nn.Module):
 
             return self.detect(pred_outs, self)
 
-
-# Some testing code
-if __name__ == '__main__':
-    from utils.functions import init_console
-
-    init_console()
-
-    # Use the first argument to set the config if you want
-    import sys
-
-    if len(sys.argv) > 1:
-        from data.config import set_cfg
-
-        set_cfg(sys.argv[1])
-
-    net = Yolact()
-    net.train()
-    net.init_weights(backbone_path='weights/' + cfg.backbone.path)
-
-    # GPU
-    net = net.cuda()
-    torch.set_default_tensor_type('torch.cuda.FloatTensor')
-
-    x = torch.zeros((1, 3, cfg.max_size, cfg.max_size))
-    y = net(x)
-
-    for p in net.prediction_layers:
-        print(p.last_conv_size)
-
-    print()
-    for k, a in y.items():
-        print(k + ': ', a.size(), torch.sum(a))
-    exit()
-
-    net(x)
-    # timer.disable('pass2')
-    avg = MovingAverage()
-    try:
-        while True:
-            timer.reset()
-            with timer.env('everything else'):
-                net(x)
-            avg.add(timer.total_time())
-            print('\033[2J')  # Moves console cursor to 0,0
-            timer.print_stats()
-            print('Avg fps: %.2f\tAvg ms: %.2f         ' % (1 / avg.get_avg(), avg.get_avg() * 1000))
-    except KeyboardInterrupt:
-        pass
+#
+# # Some testing code
+# if __name__ == '__main__':
+#     from utils.functions import init_console
+#
+#     init_console()
+#
+#     # Use the first argument to set the config if you want
+#     import sys
+#
+#     if len(sys.argv) > 1:
+#         from data.config import set_cfg
+#
+#         set_cfg(sys.argv[1])
+#
+#     net = Yolact()
+#     net.train()
+#     net.init_weights(backbone_path='weights/' + cfg.backbone.path)
+#
+#     # GPU
+#     net = net.cuda()
+#     torch.set_default_tensor_type('torch.cuda.FloatTensor')
+#
+#     x = torch.zeros((1, 3, cfg.max_size, cfg.max_size))
+#     y = net(x)
+#
+#     for p in net.prediction_layers:
+#         print(p.last_conv_size)
+#
+#     print()
+#     for k, a in y.items():
+#         print(k + ': ', a.size(), torch.sum(a))
+#     exit()
+#
+#     net(x)
+#     # timer.disable('pass2')
+#     avg = MovingAverage()
+#     try:
+#         while True:
+#             timer.reset()
+#             with timer.env('everything else'):
+#                 net(x)
+#             avg.add(timer.total_time())
+#             print('\033[2J')  # Moves console cursor to 0,0
+#             timer.print_stats()
+#             print('Avg fps: %.2f\tAvg ms: %.2f         ' % (1 / avg.get_avg(), avg.get_avg() * 1000))
+#     except KeyboardInterrupt:
+#         pass

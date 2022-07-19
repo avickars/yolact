@@ -160,3 +160,11 @@ vidres/
 _.py
 
 tf_logs/
+
+*.mp4
+
+data/test_data/images/3dogs.jpg
+
+*.pth
+
+torchserve/3dogs.jpg
